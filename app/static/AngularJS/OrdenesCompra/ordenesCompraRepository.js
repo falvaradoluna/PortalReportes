@@ -3,13 +3,11 @@ var layoutURL = global_settings.urlCORS + 'api/ordenCompra/';
 
 registrationModule.factory('ordenCompraRepository', function($http) {
     return {
-        getEmpresas: function(idUsuario) {
+        getProcesos: function() {
             return $http({
-                url: layoutURL + 'empresaByUser/',
+                url: layoutURL + 'procesos/',
                 method: "GET",
-                params: {
-                    idUsuario: idUsuario
-                },
+                params: {},
                 headers: {
                     'Content-Type': 'application/json'
                 }

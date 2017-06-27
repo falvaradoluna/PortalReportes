@@ -2,7 +2,7 @@
 <div ng-init="init()">
     <!--Page Title-->
     <div id="page-title">
-        <h1 class="page-header text-overflow">Reportes Digitalización</h1>
+        <h1 class="page-header text-overflow">Órdenes de Compra</h1>
     </div>
     <!--End page title-->
     <!--Page content-->
@@ -66,24 +66,62 @@
                         </form>
                     </div>
                     <div class="col-sm-12">
-                        <div class="col-sm-12">
-                            <h4>Ordenes de Servicio</h4>
-                        </div>
-                        <div class="col-sm-6" ng-repeat="encabezado in encabezadoOrdenes">
-                            <div class="panel">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">{{encabezado.nomSucursal}} <span class="pull-right">{{encabezado.totalOrdenes}}</span></h3>
+                        <!-- TAB -->
+                        <!--Nav Tabs-->
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" class="btn btn-default" ng-click="nodo=true;buscaOrdenes()">Nodos</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" class="btn btn-default" ng-click="nodo=false;buscaOrdenes()">Estatus</a>
+                            </li>
+                        </ul>
+                        <!--Tabs Content-->
+                        <div ng-show="nodo">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <h4> </h4>
                                 </div>
-                                <div class="panel-body">
-                                    <div class="row contenedor">
-                                        <!--Morris Donut Chart placeholder -->
-                                        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                                        <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:212px"></div>
-                                        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                <div class="col-sm-6" ng-repeat="encabezado in encabezadoOrdenes">
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">{{encabezado.nomSucursal}} <span class="pull-right">{{encabezado.totalOrdenes}}</span></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row contenedor">
+                                                <!--Morris Donut Chart placeholder -->
+                                                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                                <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:212px"></div>
+                                                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div ng-hide="nodo">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <h4> </h4>
+                                </div>
+                                <div class="col-sm-6" ng-repeat="encabezadoEstatus in encabezadoOrdenes">
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">{{encabezadoEstatus.nomSucursal}} <span class="pull-right">{{encabezadoEstatus.totalOrdenes}}</span></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row contenedor">
+                                                <!--Morris Donut Chart placeholder -->
+                                                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                                <div id="{{encabezadoEstatus.nomSucursal}}2-morris-donut" style="height:212px"></div>
+                                                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END TAB -->
                     </div>
                 </div>
             </div>
@@ -96,37 +134,77 @@
 <div class="modal fade" id="punteoDetalle" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header label-info">
+            <div class="modal-header label-primary">
                 <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle text-white"></i></button>
                 <h4 class="modal-title text-white">Ordenes de Compra</h4>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered">
+                <!-- <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Estatus:</label>
+                        <div class="col-sm-3">
+                            <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="estatus">
+                                <option value="">Seleccione estatus</option>
+                                <option ng-repeat="estatus in ordenes | groupBy:'situacionOrden'" value="{{proceso.Proc_Id}}">{{estatus.situacionOrden}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </form> -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered ordenesCompra" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Operacion</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Estatus</th>
+                                <th>Proveedor</th>
+                                <th>Empresa</th>
+                                <th>Sucursal</th>
+                                <th>Departamento</th>
+                                <th>Nodo</th>
+                                <th>Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="orden in ordenes">
+                                <td>{{orden.Folio_Operacion}}</td>
+                                <td>{{orden.tipoorden}}</td>
+                                <td>{{orden.oce_fechaorden | date : "dd/MM/yyyy"}}</td>
+                                <td>{{orden.situacionOrden}}</td>
+                                <td>{{orden.Proveedor}}</td>
+                                <td>{{orden.empNombre}}</td>
+                                <td>{{orden.sucursal}}</td>
+                                <td>{{orden.depto}}</td>
+                                <td>{{orden.nodoactual}}</td>
+                                <td>{{orden.oce_importetotal | currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <table class="table table-striped table-bordered table-hover talleres" cg-busy="{promise:promise,message:message}">
                     <thead>
-                        <tr>
-                            <th>Operacion</th>
-                            <th>Tipo</th>
-                            <th>Fecha</th>
-                            <th>Estatus</th>
-                            <th>Proveedor</th>
-                            <th>Sucursal</th>
-                            <th>Departamento</th>
-                            <th>Importe</th>
-                        </tr>
+                        <th>Taller</th>
+                        <th>Nombre Comercial</th>
+                        <th>Dirección</th>
+                        <th>Especialidad</th>
+                        <th ng-show="mostrarAccion">Seleccionar</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="orden in Ordenes">
-                            <td>{{orden.Folio_Operacion}}</td>
-                            <td>{{orden.tipoorden}}</td>
-                            <td>{{orden.oce_fechaorden}}</td>
-                            <td>{{orden.situacionOrden}}</td>
-                            <td>{{orden.Proveedor}}</td>
-                            <td>{{orden.sucursal}}</td>
-                            <td>{{orden.depto}}</td>
-                            <td>{{orden.oce_importetotal | currency}}</td>
+                        <tr ng-repeat="taller in talleres">
+                            <td>{{taller.razonSocial}}</td>
+                            <td>{{taller.nombreComercial}}</td>
+                            <td>{{taller.direccion}}</td>
+                            <td>{{taller.especialidad}}</td>
+                            <td class="text-center" ng-show="mostrarAccion">
+                                <div class="radio radio-info">
+                                    <input type="radio" value="" name="opcionEstatus" ng-model="taller.seleccionado" ng-click="sendIdTaller(taller.idProveedor)">
+                                    <label></label>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </div>
         </div>
     </div>

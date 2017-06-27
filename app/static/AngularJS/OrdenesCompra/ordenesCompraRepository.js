@@ -60,6 +60,45 @@ registrationModule.factory('ordenCompraRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        detalleOrdenEstatus: function (idUsuario, idProceso, idempresa, idSucursal, iddepartamento, iddivision, fechaini, fechafin) {
+            return $http({
+                url: layoutURL + 'detalleOrdenEstatus/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario,
+                    idProceso: idProceso,
+                    idempresa: idempresa,
+                    idSucursal: idSucursal,
+                    iddepartamento: iddepartamento,
+                    iddivision: iddivision,
+                    fechaini: fechaini,
+                    fechafin: fechafin
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        detalleOrdenesEstatus: function (idUsuario, idProceso, idempresa, idSucursal, iddepartamento, iddivision, fechaini, fechafin, idEstatus) {
+            return $http({
+                url: layoutURL + 'detalleOrdenesEstatus/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario,
+                    idProceso: idProceso,
+                    idempresa: idempresa,
+                    idSucursal: idSucursal,
+                    iddepartamento: iddepartamento,
+                    iddivision: iddivision,
+                    fechaini: fechaini,
+                    fechafin: fechafin,
+                    idEstatus: idEstatus
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

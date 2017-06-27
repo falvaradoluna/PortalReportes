@@ -65,17 +65,22 @@
                             <button class="btn btn-info pull-right" type="submit" ng-click="buscaOrdenes()"><i class="ti-search"></i> Buscar</button>
                         </form>
                     </div>
-                    <div class="col-sm-6" ng-repeat="encabezado in encabezadoOrdenes">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">{{encabezado.nomSucursal}} <span class="pull-right">{{encabezado.totalOrdenes}}</span></h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row contenedor">
-                                    <!--Morris Donut Chart placeholder -->
-                                    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                                    <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:212px"></div>
-                                    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <h4>Ordenes de Servicio</h4>
+                        </div>
+                        <div class="col-sm-6" ng-repeat="encabezado in encabezadoOrdenes">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{encabezado.nomSucursal}} <span class="pull-right">{{encabezado.totalOrdenes}}</span></h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row contenedor">
+                                        <!--Morris Donut Chart placeholder -->
+                                        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                        <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:212px"></div>
+                                        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -85,3 +90,46 @@
         </div>
         <!--End page content-->
     </div>
+</div>
+<!--Modal para colocars el numero del punteo-->
+<!--===================================================-->
+<div class="modal fade" id="punteoDetalle" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header label-info">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle text-white"></i></button>
+                <h4 class="modal-title text-white">Ordenes de Compra</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Operacion</th>
+                            <th>Tipo</th>
+                            <th>Fecha</th>
+                            <th>Estatus</th>
+                            <th>Proveedor</th>
+                            <th>Sucursal</th>
+                            <th>Departamento</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="orden in Ordenes">
+                            <td>{{orden.Folio_Operacion}}</td>
+                            <td>{{orden.tipoorden}}</td>
+                            <td>{{orden.oce_fechaorden}}</td>
+                            <td>{{orden.situacionOrden}}</td>
+                            <td>{{orden.Proveedor}}</td>
+                            <td>{{orden.sucursal}}</td>
+                            <td>{{orden.depto}}</td>
+                            <td>{{orden.oce_importetotal | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--===================================================-->
+<!--End Modal para colocar el numero del punteo-->

@@ -69,6 +69,7 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
         });
     };
     $scope.buscaOrdenes = function() {
+        $('#loading').modal('show');
         ($scope.empresa == undefined || $scope.empresa == '') ? $scope.empresa = 0: $scope.empresa = $scope.empresa;
         ($scope.sucursal == undefined || $scope.sucursal == '') ? $scope.sucursal = 0: $scope.sucursal = $scope.sucursal;
         ($scope.departamento == undefined || $scope.departamento == '') ? $scope.departamento = 0: $scope.departamento = $scope.departamento;
@@ -85,13 +86,16 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
                             data: $scope.detalle,
                             resize: true
                         }).on('click', function(i, row) {
+                            $('#loading').modal('show');
                             ordenCompraRepository.detalleOrdenes($scope.Usuario.idUsuario, $scope.proceso, row.idEmpresa, row.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, row.idNodo).then(function(result) {
                                 console.log(result.data, 'Soy lo que ira a la modal :P')
                                 $scope.ordenes = result.data;
+                                $('#loading').modal('hide');
                                 $('#punteoDetalle').modal('show');
                                 globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
                             });
                         });
+                        $('#loading').modal('hide');
                     });
                 } else if ($scope.nodo == false) {
                     ordenCompraRepository.detalleOrdenEstatus($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin).then(function(result) {
@@ -102,13 +106,16 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
                             data: $scope.detalleEstatus,
                             resize: true
                         }).on('click', function(i, row) {
+                            $('#loading').modal('show');
                             ordenCompraRepository.detalleOrdenesEstatus($scope.Usuario.idUsuario, $scope.proceso, row.idEmpresa, row.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, row.idEstatus).then(function(result) {
                                 console.log(result.data, 'Soy lo que ira a la modal :P')
                                 $scope.ordenes = result.data;
+                                $('#loading').modal('hide');
                                 $('#punteoDetalle').modal('show');
                                 globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
                             });
                         });
+                        $('#loading').modal('hide');
                     });
                 }
             });

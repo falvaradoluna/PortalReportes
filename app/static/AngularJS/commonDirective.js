@@ -31,7 +31,7 @@ registrationModule.directive('calendar', function () {
                 calendarWeeks: false,
                 autoclose: true,
                 todayHighlight: true,
-                format: 'dd/mm/yyyy'
+                format: 'yyyy/mm/dd'
             });
         }
     };

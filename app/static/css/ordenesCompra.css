@@ -73,3 +73,10 @@
     }
 }
 
+.text-top {
+    vertical-align: text-top !important;
+}
+
+.text-right {
+    text-align: right !important;
+}

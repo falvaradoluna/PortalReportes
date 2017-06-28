@@ -89,7 +89,7 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
                                 console.log(result.data, 'Soy lo que ira a la modal :P')
                                 $scope.ordenes = result.data;
                                 $('#punteoDetalle').modal('show');
-                                globalFactory.filtrosTabla("ordenesCompra", "Ordenes de Compra", 5);
+                                globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
                             });
                         });
                     });
@@ -106,7 +106,7 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
                                 console.log(result.data, 'Soy lo que ira a la modal :P')
                                 $scope.ordenes = result.data;
                                 $('#punteoDetalle').modal('show');
-                                globalFactory.filtrosTabla("ordenesCompra", "Ordenes de Compra", 5);
+                                globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
                             });
                         });
                     });

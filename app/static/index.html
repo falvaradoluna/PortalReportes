@@ -30,7 +30,7 @@
 </head>
 
 <body ng-app="registrationModule" ng-controller="mainController" ng-init="init()">
-<loading></loading>
+    <loading></loading>
     <div id="container" class="effect aside-float aside-bright mainnav-sm">
         <!--NAVBAR-->
         <!--===================================================-->
@@ -138,7 +138,19 @@
                                         <!--Submenu-->
                                         <ul class="collapse">
                                             <li><a href="/ordenDeCompra">Órdenes de Compra</a></li>
-                                            <li><a href="#">Cotizaciones</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="ti-pencil-alt"></i>
+                                            <span class="menu-title">
+                                                <strong>BPRO</strong>
+                                            </span>
+                                        </a>
+                                        <!--Submenu-->
+                                        <ul class="collapse">
+                                            <li><a href="/recibosCaja">Recibos de Caja</a></li>
+                                            <li><a href="/formatoEntrega">Formatos de Entrega</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -208,12 +220,15 @@
     <script src="AngularJS/filterFactory.js"></script>
     <script src="AngularJS/commonDirective.js"></script>
     <script src="AngularJS/globalFactory.js"></script>
+    <script src="AngularJS/utils.js"></script>
     <!--Controllers-->
     <script src="AngularJS/Main/mainController.js"></script>
     <script src="AngularJS/login/loginController.js"></script>
     <script src="AngularJS/login/loginRepository.js"></script>
     <script src="AngularJS/OrdenesCompra/ordenesCompraController.js"></script>
     <script src="AngularJS/OrdenesCompra/ordenesCompraRepository.js"></script>
+    <script src="AngularJS/RecibosCaja/recibosCajaController.js"></script>
+    <script src="AngularJS/RecibosCaja/recibosCajaRepository.js"></script>
 </body>
 
 </html>

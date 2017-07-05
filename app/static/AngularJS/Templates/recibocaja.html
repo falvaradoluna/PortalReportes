@@ -1,0 +1,72 @@
+<div ng-init="init()">
+    <!--Page Title-->
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Recibos de Caja</h1>
+    </div>
+    <!--End page title-->
+    <!--Page content-->
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Filtros</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">Empresa:</label>
+                                <div class="col-sm-3">
+                                    <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="empresa" ng-change="getSucursales()">
+                                        <option value="">Seleccione Empresa</option>
+                                        <option ng-repeat="empresa in empresas" value="{{empresa.idEmpresa}}">{{empresa.nombre}}</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label">Agencia:</label>
+                                <div class="col-sm-3">
+                                    <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="sucursal" ng-change="getDepartamento()">
+                                        <option value="">Seleccione la Agencia</option>
+                                        <option ng-repeat="agencia in agencias" value="{{agencia.idSucursal}}">{{agencia.nombre}}</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mar-btm col-sm-4">
+                                    <div class="input-group-btn">
+                                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" style="min-width: 160px;">
+                                            {{nombreBusqueda}}<i class="dropdown-caret"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="btn" ng-click="tipoBusqueda(1)">Número de Factura</a></li>
+                                            <li><a class="btn" ng-click="tipoBusqueda(2)">Número de Recibo</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" placeholder="{{nombreBusqueda}}" class="form-control" ng-model="folio">
+                                </div>
+                            </div>
+                            <button class="btn btn-info pull-right" type="submit" ng-click="buscaRecibos()"><i class="ti-search"></i> Buscar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End page content-->
+</div>
+<!--Modal para colocar pdf-->
+<!--===================================================-->
+<div class="modal fade" id="reciboCaja" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header label-primary">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle text-white"></i></button>
+                <h4 class="modal-title text-white">Recibo de Caja</h4>
+            </div>
+            <div class="modal-body">
+            <div id="pdfRecibo">
+                
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--===================================================-->
+<!--End Modal para colocar el numero del punteo-->

@@ -45,6 +45,33 @@
                             <button class="btn btn-info pull-right" type="submit" ng-click="buscaRecibos()"><i class="ti-search"></i> Buscar</button>
                         </form>
                     </div>
+                    <div class="col-sm-12">
+                        <!-- <ul class="nav nav-tabs">
+                            <li class="active" ng-repeat="numero in pdf">
+                                <a data-toggle="tab" class="btn btn-default" href="#recibo{{numero.id}}">Recibo de Caja {{numero.id}}</a>
+                            </li>
+                        </ul> -->
+                        <!--Default Tabs (Left Aligned)-->
+                        <!--===================================================-->
+                        <div class="tab-base">
+                            <!--Nav Tabs-->
+                            <ul class="nav nav-tabs">
+                                <li ng-repeat="numero in pdf">
+                                    <a data-toggle="tab" class="btn btn-default" ng-click="muestraFactura(numero.id)">Recibo de Caja {{numero.id}}</a>
+                                </li>
+                            </ul>
+                            <!--Tabs Content-->
+                            <div class="tab-content" >
+                                <div id="recibo{{documento.id}}" class="tab-pane fade active in" ng-repeat="documento in pdf">
+                                    <div id="pdfRecibo{{documento.id}}" ng-show="{{documento.id}} == muestraContenido">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!--End Default Tabs (Left Aligned)-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,9 +88,8 @@
                 <h4 class="modal-title text-white">Recibo de Caja</h4>
             </div>
             <div class="modal-body">
-            <div id="pdfRecibo">
-                
-            </div>
+                <div id="pdfRecibo">
+                </div>
             </div>
         </div>
     </div>

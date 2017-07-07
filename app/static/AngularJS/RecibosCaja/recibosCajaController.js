@@ -44,21 +44,82 @@ registrationModule.controller('recibosCajaController', function($scope, $rootSco
         });
     };
     $scope.buscaRecibos = function() {
+        $('#loading').modal('show');
         var folioEmpresaSucursal = ''
+        var arregloBytes = [];
+        $scope.pdf = [];
+        $scope.contador = 1;
         if ($scope.identificaBusqueda == 1) {
             folioEmpresaSucursal = $scope.folio + '/' + $scope.empresa + '/' + $scope.sucursal;
             console.log('Entre a busqueda por numero de factura', $scope.folio + '/' + $scope.empresa + '/' + $scope.sucursal);
             recibosCajaRepository.pdfReciboCaja('REC', folioEmpresaSucursal, 0).then(function(result) {
                 console.log(result);
-                var pdf = URL.createObjectURL(utils.b64toBlob(result.data.arrayBits, "application/pdf"));
-                $('#reciboCaja').modal('show');
-                 $("<object class='filesInvoce' data='" + pdf + "' width='100%' height='500px' >").appendTo('#pdfRecibo');
+                arregloBytes = result.data.arrayBits.base64Binary;
+                console.log(arregloBytes, 'Solo los arreglos');
+
+
+
+                angular.forEach(arregloBytes, function(value, key) {
+                    var consecutivo = key + 1;
+                    $scope.pdf.push({
+                        urlPdf: URL.createObjectURL(utils.b64toBlob(value, "application/pdf")),
+                        id: key + 1
+                    });
+                    //$scope.pdf[key] = URL.createObjectURL(utils.b64toBlob(value, "application/pdf"));
+                    // $('#reciboCaja').modal('show');
+
+                });
+                setTimeout(function() {
+                    angular.forEach($scope.pdf, function(value, key) {
+                        var consecutivo = key + 1;
+                        $("<object class='filesInvoce' data='" + $scope.pdf[key].urlPdf + "' width='100%' height='500px' >").appendTo('#pdfRecibo' + consecutivo);
+                    });
+                }, 100);
+                $('#loading').modal('hide');
+
+
+                console.log($scope.pdf, 'Soy el arreglo ')
+
             });
         } else if ($scope.identificaBusqueda == 2) {
             folioEmpresaSucursal = $scope.folio + '|' + $scope.empresa + '|' + $scope.sucursal;
             console.log('Entre a busqueda por numero de recibo', $scope.folio + '|' + $scope.empresa + '|' + $scope.sucursal);
+            recibosCajaRepository.pdfReciboCaja('REC', folioEmpresaSucursal, 0).then(function(result) {
+                console.log(result);
+                arregloBytes = result.data.arrayBits.base64Binary;
+                console.log(arregloBytes, 'Solo los arreglos');
+
+
+
+                angular.forEach(arregloBytes, function(value, key) {
+                    var consecutivo = key + 1;
+                    $scope.pdf.push({
+                        urlPdf: URL.createObjectURL(utils.b64toBlob(value, "application/pdf")),
+                        id: key + 1
+                    });
+                    //$scope.pdf[key] = URL.createObjectURL(utils.b64toBlob(value, "application/pdf"));
+                    // $('#reciboCaja').modal('show');
+
+                });
+                setTimeout(function() {
+                    angular.forEach($scope.pdf, function(value, key) {
+                        var consecutivo = key + 1;
+                        $("<object class='filesInvoce' data='" + $scope.pdf[key].urlPdf + "' width='100%' height='500px' >").appendTo('#pdfRecibo' + consecutivo);
+                    });
+                }, 100);
+
+
+                $('#loading').modal('hide');
+                console.log($scope.pdf, 'Soy el arreglo ')
+
+            });
         } else {
+            $('#loading').modal('hide');
             alertFactory.error('Ocurrio un problema')
         }
+    };
+    $scope.muestraFactura = function(id) {
+
+        $scope.muestraContenido = id;
     }
 });

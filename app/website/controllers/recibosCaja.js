@@ -37,7 +37,7 @@ recibosCaja.prototype.get_pdfReciboCaja = function(req, res, next) {
                 });
             } else {
                 console.log(args)
-                client.GenerarPdf(args, function(err, result, raw) {
+                client.GenerarPdfArray(args, function(err, result, raw) {
                     if (err) {
                         console.log('Error 3', err)
 
@@ -45,7 +45,9 @@ recibosCaja.prototype.get_pdfReciboCaja = function(req, res, next) {
                             mensaje: "Hubo un problema intente de nuevo",
                         });
                     } else {
-                        //console.log(raw)
+                        //
+                        //console.log(raw, 'Soy el raw')
+                        //console.log(result,'Sor el resutado ')
                         parseString(raw, function(err, result) {
                             if (err) {
                                 console.log('Error 2', err)
@@ -55,11 +57,12 @@ recibosCaja.prototype.get_pdfReciboCaja = function(req, res, next) {
                                 });
                             } else {
                                 console.log('Llegue hasta el final')
-                                
-                                console.log(result)
-                                console.log(result["soap:Envelope"]["soap:Body"][0]["GenerarPdfResponse"][0]["GenerarPdfResult"][0],'Lo logre?')
-                                var arrayBits = result["soap:Envelope"]["soap:Body"][0]["GenerarPdfResponse"][0]["GenerarPdfResult"][0];
-                                    //var mensaje = result["soap:Envelope"]["soap:Body"][0]["MuestraFacturaResponse"][0]["MuestraFacturaResult"][0]["mensajeresultado"][0];
+
+                                //console.log(result)
+                                console.log(result["soap:Envelope"]["soap:Body"][0]["GenerarPdfArrayResponse"][0]["GenerarPdfArrayResult"][0], 'Lo logre?')
+                                var arrayBits = result["soap:Envelope"]["soap:Body"][0]["GenerarPdfArrayResponse"][0]["GenerarPdfArrayResult"][0];
+                                //var arrayBits = result["soap:Envelope"]["soap:Body"][0]["GenerarPdfResponse"][0]["GenerarPdfResult"][0];
+                                //var mensaje = result["soap:Envelope"]["soap:Body"][0]["MuestraFacturaResponse"][0]["MuestraFacturaResult"][0]["mensajeresultado"][0];
                                 self.view.expositor(res, {
                                     //mensaje: mensaje,
                                     result: {

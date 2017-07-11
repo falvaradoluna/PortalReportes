@@ -1,5 +1,5 @@
 {
-	"WSReciboCaja": "http://localhost:62644/WS_Gen_Pdf.asmx?WSDL",
+	"WSReciboCaja": "http://192.168.20.9:8091/WS_Gen_Pdf.asmx?WSDL",
     "port": 5500,
     "SQL_user": "sa",
     "SQL_password": "S0p0rt3",

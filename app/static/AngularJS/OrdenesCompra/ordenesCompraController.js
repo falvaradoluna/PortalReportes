@@ -3,6 +3,7 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
     $scope.fechaInicio = null;
     $scope.fechaFin = null;
     $scope.nodo = true;
+    $scope.muestraMensaje = 0;
     $scope.init = function() {
         $scope.Usuario = userFactory.getUserData();
         $scope.getProcesos();
@@ -81,7 +82,7 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
                     ordenCompraRepository.detalleOrden($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin).then(function(result) {
                         $scope.detalle = result.data;
                         console.log($scope.detalle, 'Soy el detalle jejeje')
-                        Morris.Donut({
+                        var donut = new Morris.Donut({
                             element: value.nomSucursal + '-morris-donut',
                             data: $scope.detalle,
                             resize: true
@@ -95,6 +96,17 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
                                 globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
                             });
                         });
+                        for (i = 0; i < donut.segments.length; i++) {
+                            donut.segments[i].handlers['hover'].push(function(i) {
+                                // if(value.idSucursal == donut.data[i].idSucursal){
+                                //     $scope.muestraMensaje = true;
+                                // }   
+                                $scope.muestraMensaje = donut.data[i].idSucursal;
+                                $('#morrisdetails-item .morris-hover-row-label').text(donut.data[i].nombreNodo);
+                                $('#morrisdetails-item .morris-hover-point').text(donut.data[i].value);
+                                $scope.$apply();
+                            });
+                        }
                         $('#loading').modal('hide');
                     });
                 } else if ($scope.nodo == false) {
@@ -125,5 +137,6 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
             //$('#demo-morris-donut').empty();
 
         });
+
     };
 });

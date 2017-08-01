@@ -23,6 +23,13 @@
                                         <option ng-repeat="proceso in procesos" value="{{proceso.Proc_Id}}">{{proceso.Proc_Nombre}}</option>
                                     </select>
                                 </div>
+                                <label class="col-sm-1 control-label">División:</label>
+                                <div class="col-sm-3">
+                                    <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="division">
+                                        <option value="">Seleccione la División</option>
+                                        <option ng-repeat="division in divisiones" value="{{division.idDivision}}">{{division.nombre}}</option>
+                                    </select>
+                                </div>
                                 <label class="col-sm-1 control-label">Empresa:</label>
                                 <div class="col-sm-3">
                                     <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="empresa" ng-change="getSucursales()">
@@ -30,6 +37,8 @@
                                         <option ng-repeat="empresa in empresas" value="{{empresa.idEmpresa}}">{{empresa.nombre}}</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-1 control-label">Agencia:</label>
                                 <div class="col-sm-3">
                                     <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="sucursal" ng-change="getDepartamento()">
@@ -37,20 +46,11 @@
                                         <option ng-repeat="agencia in agencias" value="{{agencia.idSucursal}}">{{agencia.nombre}}</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-sm-1 control-label">Departamento:</label>
                                 <div class="col-sm-3">
                                     <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="departamento">
                                         <option value="">Seleccione el Departamento</option>
                                         <option ng-repeat="departamento in departamentos" value="{{departamento.idDepartamento}}">{{departamento.nombre}}</option>
-                                    </select>
-                                </div>
-                                <label class="col-sm-1 control-label">División:</label>
-                                <div class="col-sm-3">
-                                    <select class="selectpicker" data-live-search="false" data-width="100%" ng-model="division">
-                                        <option value="">Seleccione la División</option>
-                                        <option ng-repeat="division in divisiones" value="{{division.idDivision}}">{{division.nombre}}</option>
                                     </select>
                                 </div>
                                 <label class="col-sm-1 control-label">Rango de Fechas:</label>
@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-info pull-right" type="submit" ng-click="buscaOrdenes(); muestraTab = true"><i class="ti-search"></i> Buscar</button>
+                            <button class="btn btn-info pull-right" type="submit" ng-click="buscaOrdenes(); muestraTab = true" ng-disabled="(proceso == '' || proceso == null || proceso == undefined || division == '' || division == null || division == undefined || empresa == '' || empresa == null || empresa == undefined)"><i class="ti-search"></i> Buscar</button>
                         </form>
                     </div>
                     <div class="col-sm-12" ng-show="muestraTab">
@@ -80,7 +80,6 @@
                         <div ng-show="nodo">
                             <div class="col-sm-12">
                                 <div class="col-sm-12">
-                                    <h4> </h4>
                                 </div>
                                 <div class="col-sm-6" ng-repeat="encabezado in encabezadoOrdenes">
                                     <div class="panel">
@@ -91,8 +90,17 @@
                                             <div class="row contenedor">
                                                 <!--Morris Donut Chart placeholder -->
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                                                <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:212px"></div>
+                                                <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:312px"></div>
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                                                <h4 ng-show="{{encabezado.idSucursal}} == muestraMensaje"> 
+                                                    <div id="morrisdetails-item">
+                                                        <div class="morris-hover-row-label">Nodo
+                                                        </div>
+                                                        <div class="morris-hover-point">Número de Documentos 
+                                                        </div>
+                                                    </div>
+                                                </h4>
+                                                <!-- -->
                                             </div>
                                         </div>
                                     </div>
@@ -113,7 +121,7 @@
                                             <div class="row contenedor">
                                                 <!--Morris Donut Chart placeholder -->
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                                                <div id="{{encabezadoEstatus.nomSucursal}}2-morris-donut" style="height:212px"></div>
+                                                <div id="{{encabezadoEstatus.nomSucursal}}2-morris-donut" style="height:312px"></div>
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
                                             </div>
                                         </div>

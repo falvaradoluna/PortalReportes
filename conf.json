@@ -6,6 +6,6 @@
     "SQL_server": "192.168.20.9",
     "SQL_database": "PortalReportes",
     "SQL_connectionTimeout": 60000,
-    "SQL_requestTimeout": 30000
+    "SQL_requestTimeout": 300000
 
 }

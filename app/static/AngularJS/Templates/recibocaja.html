@@ -42,7 +42,7 @@
                                     <input type="text" placeholder="{{nombreBusqueda}}" class="form-control" ng-model="folio">
                                 </div>
                             </div>
-                            <button class="btn btn-info pull-right" type="submit" ng-click="buscaRecibos()"><i class="ti-search"></i> Buscar</button>
+                            <button class="btn btn-info pull-right" type="submit" ng-click="buscaRecibos()" ng-disabled="(empresa == null || empresa == undefined || empresa== '' || sucursal == null || sucursal == undefined || sucursal== '' || folio == null || folio == undefined || folio== '' || identificaBusqueda < 1)"><i class="ti-search"></i> Buscar</button>
                         </form>
                     </div>
                     <div class="col-sm-12">

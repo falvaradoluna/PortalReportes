@@ -93,7 +93,7 @@ ordenCompra.prototype.get_detalleOrdenEstatus = function(req, res, next) {
     ];
     console.log(params);
     self.model.query('SEL_DASHBOARD_ORDENES_X_ESTATUS_SP', params, function(error, result) {
-        console.log(result,'Soy el resultadito')
+        console.log(result, 'Soy el resultadito')
         self.view.expositor(res, {
             error: error,
             result: result
@@ -114,7 +114,7 @@ ordenCompra.prototype.get_detalleOrdenesEstatus = function(req, res, next) {
         { name: 'fechaini', value: req.query.fechaini, type: self.model.types.STRING },
         { name: 'fechafin', value: req.query.fechafin, type: self.model.types.STRING },
         { name: 'idEstatus', value: req.query.idEstatus, type: self.model.types.INT }
-    ];    
+    ];
     self.model.query('SEL_ORDENES_FILTROS_ESTATUS_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
@@ -122,6 +122,68 @@ ordenCompra.prototype.get_detalleOrdenesEstatus = function(req, res, next) {
         });
     });
 }
+ordenCompra.prototype.get_buscarOrdenesGenerales = function(req, res, next) {
+    var self = this;
 
+    var params = [
+        { name: 'idusuariosolicitante', value: req.query.idUsuario, type: self.model.types.INT },
+        { name: 'idProceso', value: req.query.idProceso, type: self.model.types.INT },
+        { name: 'idempresa', value: req.query.idempresa, type: self.model.types.INT },
+        { name: 'idSucursal', value: req.query.idSucursal, type: self.model.types.INT },
+        { name: 'iddepartamento', value: req.query.iddepartamento, type: self.model.types.INT },
+        { name: 'iddivision', value: req.query.iddivision, type: self.model.types.INT },
+        { name: 'fechaini', value: req.query.fechaini, type: self.model.types.STRING },
+        { name: 'fechafin', value: req.query.fechafin, type: self.model.types.STRING }
+    ];
+    console.log(params);
+    self.model.query('SEL_DASHBOARD_ORDENES_GENERAL_SP', params, function(error, result) {
+        console.log(error, 'soy el error')
+        console.log(result,'soy el resultado')
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+ordenCompra.prototype.get_detalleGeneral = function(req, res, next) {
+    var self = this;
+
+    var params = [
+        { name: 'idusuariosolicitante', value: req.query.idUsuario, type: self.model.types.INT },
+        { name: 'idProceso', value: req.query.idProceso, type: self.model.types.INT },
+        { name: 'idempresa', value: req.query.idempresa, type: self.model.types.INT },
+        { name: 'idSucursal', value: req.query.idSucursal, type: self.model.types.INT },
+        { name: 'iddepartamento', value: req.query.iddepartamento, type: self.model.types.INT },
+        { name: 'iddivision', value: req.query.iddivision, type: self.model.types.INT },
+        { name: 'fechaini', value: req.query.fechaini, type: self.model.types.STRING },
+        { name: 'fechafin', value: req.query.fechafin, type: self.model.types.STRING }
+    ];
+    console.log(params);
+    self.model.query('SEL_ORDENES_FILTROS_GENERAL_SP', params, function(error, result) {
+        console.log(error, 'soy el error')
+        console.log(result,'soy el resultado')
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+ordenCompra.prototype.get_detalleOrdenDocumentos = function(req, res, next) {
+    var self = this;
+
+    var params = [
+        { name: 'idNodo', value: req.query.nodoactual, type: self.model.types.INT },
+        { name: 'folio', value: req.query.Folio_Operacion, type: self.model.types.STRING }
+    ];
+    console.log(params);
+    self.model.query('SEL_DOCUMENTOS_ORDEN_SP', params, function(error, result) {
+        console.log(error, 'soy el error')
+        console.log(result,'soy el resultado')
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 
 module.exports = ordenCompra;

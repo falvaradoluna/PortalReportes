@@ -77,8 +77,8 @@
                                     <h3 class="panel-title">Detalle General</h3>
                                 </div>
                                 <div class="ibox-content">
-                                    <div>
-                                        <canvas id="doughnutChart" height="70"></canvas>
+                                    <div id="idDetalleGeneral">
+                                        <!-- <canvas id="doughnutChart" height="70"></canvas> -->
                                     </div>
                                 </div>
                             </div>
@@ -113,18 +113,21 @@
                                         </div>
                                         <div class="panel-body">
                                             <div class="row contenedor">
+                                                <div>
+                                                    <canvas id="{{encabezado.nomSucursal}}" height="70"></canvas>
+                                                </div>
                                                 <!--Morris Donut Chart placeholder -->
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                                                <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:312px"></div>
+                                                <!-- <div id="{{encabezado.nomSucursal}}-morris-donut" style="height:312px"></div> -->
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                                                <h4 ng-show="{{encabezado.idSucursal}} == muestraMensaje"> 
+                                                <!-- <h4 ng-show="{{encabezado.idSucursal}} == muestraMensaje"> 
                                                     <div id="morrisdetails-item">
                                                         <div class="morris-hover-row-label">Nodo
                                                         </div>
                                                         <div class="morris-hover-point">Número de Documentos 
                                                         </div>
                                                     </div>
-                                                </h4>
+                                                </h4> -->
                                                 <!-- -->
                                             </div>
                                         </div>
@@ -144,9 +147,12 @@
                                         </div>
                                         <div class="panel-body">
                                             <div class="row contenedor">
+                                                <div>
+                                                    <canvas id="{{encabezadoEstatus.nomSucursal}}1" height="70"></canvas>
+                                                </div>
                                                 <!--Morris Donut Chart placeholder -->
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-                                                <div id="{{encabezadoEstatus.nomSucursal}}2-morris-donut" style="height:312px"></div>
+                                                <!-- <div id="{{encabezadoEstatus.nomSucursal}}2-morris-donut" style="height:312px"></div> -->
                                                 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
                                             </div>
                                         </div>
@@ -167,7 +173,7 @@
 <div class="modal fade" id="ordenes" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header label-primary">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle text-white"></i></button>
                 <h4 class="modal-title text-white">Ordenes de Compra</h4>
             </div>
@@ -181,12 +187,12 @@
                                 <th class="text-top">Fecha</th>
                                 <th class="text-top">Estatus <span class="filtrosSelect"></span></th>
                                 <th class="text-top">Proveedor <span class="filtrosSelect"></span></th>
-                                <th class="text-top">Empresa</th>
-                                <th class="text-top">Sucursal</th>
+                                <th class="text-top">Empresa </th>
+                                <th class="text-top">Sucursal <br><span class="filtrosSelect" ng-show="mostrarFitroSucursal"></span></th>
                                 <th class="text-top">Departamento <span class="filtrosSelect"></span></th>
                                 <th class="text-top">Usuario</th>
                                 <th class="text-top">Nodo <span class="filtrosSelect"></span></th>
-                                <th class="text-top">Importe</th>
+                                <th class="text-top">Importe <span class="inputSelect"></span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -217,7 +223,7 @@
 <div class="modal fade" id="documentos" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header label-primary">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle text-white"></i></button>
                 <h4 class="modal-title text-white">Ordenes de Compra</h4>
             </div>

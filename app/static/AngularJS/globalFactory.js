@@ -101,7 +101,7 @@ registrationModule.factory('globalFactory', function() {
                         this.api().columns().every(function() {
                             var column = this;
                             var select = $('<select><option value=""></option></select>')
-                                .appendTo($('.filtrosSelect',column.header()).empty())
+                                .appendTo($('.filtrosSelect', column.header()).empty())
                                 .on('change', function() {
                                     var val = $.fn.dataTable.util.escapeRegex(
                                         $(this).val()
@@ -115,6 +115,15 @@ registrationModule.factory('globalFactory', function() {
                             column.data().unique().sort().each(function(d, j) {
                                 select.append('<option value="' + d + '">' + d + '</option>')
                             });
+                            var input = $('<br><input type="text" class="filtro-tabla"/>')
+                                .appendTo($('.inputSelect', column.header()).empty())
+                                .on('keyup change', function() {
+                                    if (column.search() !== this.value) {
+                                        column
+                                            .search(this.value)
+                                            .draw()
+                                    }
+                                });
                         });
                     }
                 })

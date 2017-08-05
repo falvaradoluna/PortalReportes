@@ -128,6 +128,13 @@ registrationModule.factory('globalFactory', function() {
                     }
                 })
             }, 100)
+        },
+        tableBasica: function(dataTable) {
+            $('.' + dataTable).DataTable().destroy();
+            setTimeout(function() {
+                $('.' + dataTable).DataTable({
+                })
+            }, 100)
         }
     }
 })

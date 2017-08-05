@@ -188,7 +188,8 @@
                                 <th class="text-top">Estatus <span class="filtrosSelect"></span></th>
                                 <th class="text-top">Proveedor <span class="filtrosSelect"></span></th>
                                 <th class="text-top">Empresa </th>
-                                <th class="text-top">Sucursal <br><span class="filtrosSelect" ng-show="mostrarFitroSucursal"></span></th>
+                                <th class="text-top">Sucursal
+                                    <br><span class="filtrosSelect" ng-show="mostrarFitroSucursal"></span></th>
                                 <th class="text-top">Departamento <span class="filtrosSelect"></span></th>
                                 <th class="text-top">Usuario</th>
                                 <th class="text-top">Nodo <span class="filtrosSelect"></span></th>
@@ -225,11 +226,47 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle text-white"></i></button>
-                <h4 class="modal-title text-white">Ordenes de Compra</h4>
+                <h4 class="modal-title text-white">Orden de Compra: {{ordenCompra.Folio_Operacion}}</h4>
             </div>
             <div class="modal-body">
-                <div class="table-responsive col-sm-6">
-                    <table class="table ">
+                <div>
+                    <p><span class="text-main text-bold mar-no">Solicitante: </span><span>{{ordenCompra.usuario}}</span></p>
+                    <p><span class="text-main text-bold mar-no">Empresa: </span><span>{{ordenCompra.empNombre}}</span></p>
+                    <p><span class="text-main text-bold mar-no">Agencia: </span><span>{{ordenCompra.sucursal}}</span></p>
+                    <p><span class="text-main text-bold mar-no">Departamento: </span><span>{{ordenCompra.depto}}</span></p>
+                    <p><span class="text-main text-bold mar-no">Ultima Modificación: </span><span>{{ordenCompra.oce_fechaorden | date : "dd/MM/yyyy"}}</span></p>
+                    <p><span class="text-main text-bold mar-no">Nodo Acutual: </span><span>{{ordenCompra.nodoactual + ' ' + ordenCompra.nombreNodo}}</span></p>
+                    <p><span class="text-main text-bold mar-no">Estatus: </span><span>{{ordenCompra.situacionOrden}}</span></p>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Documentos Entregados</h5>
+                            </div>
+                            <div class="panel-body">
+                                <div ng-repeat="documento in documentos" class="form-group" ng-if="(documento.fechaCreacion != null)">
+                                    <div>{{documento.nombreDocumento}} &nbsp;<span class="label label-info" ng-show="(documento.Es_Mandatorio == 1)">Mandatorio</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Documentos Faltantes</h5>
+                            </div>
+                            <div class="panel-body">
+                                <div ng-repeat="noDocumento in documentos" class="form-group" ng-if="(noDocumento.fechaCreacion == null)">
+                                    <div >{{noDocumento.nombreDocumento}} &nbsp;<span class="label label-info" ng-show="(noDocumento.Es_Mandatorio == 1)">Mandatorio</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-6">
+                    <table>
                         <thead>
                             <tr>
                                 <th class="text-top">Documentos Entregados</th>
@@ -242,8 +279,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="table-responsive col-sm-6">
-                    <table class="table">
+                <div class="col-sm-6">
+                    <table>
                         <thead>
                             <tr>
                                 <th class="text-top">Documentos Faltantes</th>
@@ -255,7 +292,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
             </div>
             <div class="modal-footer">
                 <button class="btn btn-info" type="button" ng-click="irDigitalizacion()">Ir a Digitalización</button>

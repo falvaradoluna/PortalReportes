@@ -44,14 +44,18 @@
 
 @media screen and (max-width: 767px) {}
 
-.table > caption + thead > tr:first-child > th,
-.table > colgroup + thead > tr:first-child > th,
-.table > thead:first-child > tr:first-child > th,
-.table > caption + thead > tr:first-child > td,
-.table > colgroup + thead > tr:first-child > td,
-.table > thead:first-child > tr:first-child > td {
+.table>caption+thead>tr:first-child>th,
+.table>colgroup+thead>tr:first-child>th,
+.table>thead:first-child>tr:first-child>th,
+.table>caption+thead>tr:first-child>td,
+.table>colgroup+thead>tr:first-child>td,
+.table>thead:first-child>tr:first-child>td {
     background-color: whitesmoke;
 }
+
+
+
+
 
 
 /*
@@ -79,4 +83,28 @@
 
 .text-right {
     text-align: right !important;
+}
+
+.modal-header {
+    background: #5d78b7;
+}
+
+.modal-title {
+    font-size: 1.2em;
+    color: #d5d9de;
+    text-align: center;
+}
+
+.modal-body>.close,
+.modal-header>.close {
+    background-color: rgba(218, 19, 19, 0)!important;
+}
+
+.panel-title {
+    font-size: 14px;
+    line-height: 40px;
+}
+
+.panel-body {
+    padding: 1px 20px 25px;
 }

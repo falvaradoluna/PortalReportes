@@ -278,6 +278,7 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
     $scope.getDetalleOrden = function(orden) {
         if ($scope.proceso == 1) {
             $scope.ordenCompra = orden;
+            console.log($scope.ordenCompra,'Soy el detalle de la orden de compra')
             $('#loading').modal('show');
             $('#ordenes').modal('hide');
             ordenCompraRepository.getDetalleOrden(orden).then(function(result) {

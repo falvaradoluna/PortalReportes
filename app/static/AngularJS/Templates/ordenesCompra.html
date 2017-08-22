@@ -168,7 +168,7 @@
         <!--End page content-->
     </div>
 </div>
-<!--Modal para colocars el numero del punteo-->
+<!--Modal -->
 <!--===================================================-->
 <div class="modal fade" id="ordenes" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -183,6 +183,9 @@
                         <thead>
                             <tr>
                                 <th class="text-top">Operacion</th>
+                                <th class="text-top">VIN</th>
+                                <th class="text-top">Factura</th>
+                                <th class="text-top">Orden de Servicio</th>
                                 <th class="text-top">Tipo <span class="filtrosSelect"></span></th>
                                 <th class="text-top">Fecha</th>
                                 <th class="text-top">Estatus <span class="filtrosSelect"></span></th>
@@ -199,6 +202,9 @@
                         <tbody>
                             <tr ng-repeat="orden in ordenes" ng-click="getDetalleOrden(orden)">
                                 <td>{{orden.Folio_Operacion}}</td>
+                                <td>{{orden.numeroSerie}}</td>
+                                <td>{{orden.factura}}</td>
+                                <td>{{orden.ordenServicio}}</td>
                                 <td>{{orden.tipoorden}}</td>
                                 <td>{{orden.oce_fechaorden | date : "dd/MM/yyyy"}}</td>
                                 <td>{{orden.situacionOrden}}</td>
@@ -218,7 +224,7 @@
     </div>
 </div>
 <!--===================================================-->
-<!--End Modal para colocar el numero del punteo-->
+<!--End Modal -->
 <!--Modal para colocar el detalle de la orden -->
 <!--===================================================-->
 <div class="modal fade" id="documentos" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">

@@ -82,137 +82,144 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
         ($scope.division == undefined || $scope.division == '') ? $scope.division = 0: $scope.division = $scope.division;
         ordenCompraRepository.buscaOrdenes($scope.Usuario.idUsuario, $scope.proceso, $scope.empresa, $scope.sucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin).then(function(result) {
             $scope.encabezadoOrdenes = result.data;
-            angular.forEach($scope.encabezadoOrdenes, function(value, key) {
-                if ($scope.nodo == true) {
-                    ordenCompraRepository.detalleOrden($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin).then(function(result) {
-                        $scope.detalle = result.data;
-                        $scope.todoDetalle.push($scope.detalle);
-                        console.log($scope.detalle, 'Soy el detalle jejeje')
-                        //BEGIN GRAFICA PASTEL
-                        var doughnutData = result.data;
-                        var doughnutOptions = {
-                            segmentShowStroke: true,
-                            segmentStrokeColor: "#fff",
-                            segmentStrokeWidth: 2,
-                            percentageInnerCutout: 0, // This is 0 for Pie charts
-                            animationSteps: 100,
-                            animationEasing: "easeOutBounce",
-                            animateRotate: true,
-                            animateScale: false,
-                            responsive: true
-                        };
-                        var canvas = document.getElementById(value.nomSucursal);
-                        var ctx = canvas.getContext("2d");
-                        var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
-                        document.getElementById(value.nomSucursal).onclick = function(evt) {
-                            $scope.mostrarFitroSucursal = false;
-                            var sucursalnombre = $(this).attr("id");
-                            var activePoints = myNewChart.getSegmentsAtEvent(evt);
-                            angular.forEach($scope.todoDetalle, function(value, key) {
-                                $scope.detalleSucursal = value;
-                                angular.forEach($scope.detalleSucursal, function(value, key) {
-                                    if (value.label == activePoints[0].label && value.sucNombre == sucursalnombre) {
-                                        $('#loading').modal('show');
-                                        ordenCompraRepository.detalleOrdenes($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, value.idNodo).then(function(result) {
-                                            console.log(result.data, 'Soy lo que ira a la modal :P')
-                                            $scope.ordenes = result.data;
-                                            $('#loading').modal('hide');
-                                            $('#ordenes').modal('show');
-                                            globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
-                                        });
-                                    }
+            if ($scope.encabezadoOrdenes.length > 0) {
+                angular.forEach($scope.encabezadoOrdenes, function(value, key) {
+                    if ($scope.nodo == true) {
+                        ordenCompraRepository.detalleOrden($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin).then(function(result) {
+                            $scope.detalle = result.data;
+                            $scope.todoDetalle.push($scope.detalle);
+                            console.log($scope.detalle, 'Soy el detalle jejeje')
+                            //BEGIN GRAFICA PASTEL
+                            var doughnutData = result.data;
+                            var doughnutOptions = {
+                                segmentShowStroke: true,
+                                segmentStrokeColor: "#fff",
+                                segmentStrokeWidth: 2,
+                                percentageInnerCutout: 0, // This is 0 for Pie charts
+                                animationSteps: 100,
+                                animationEasing: "easeOutBounce",
+                                animateRotate: true,
+                                animateScale: false,
+                                responsive: true
+                            };
+                            var canvas = document.getElementById(value.nomSucursal);
+                            var ctx = canvas.getContext("2d");
+                            var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
+                            document.getElementById(value.nomSucursal).onclick = function(evt) {
+                                $scope.mostrarFitroSucursal = false;
+                                var sucursalnombre = $(this).attr("id");
+                                var activePoints = myNewChart.getSegmentsAtEvent(evt);
+                                angular.forEach($scope.todoDetalle, function(value, key) {
+                                    $scope.detalleSucursal = value;
+                                    angular.forEach($scope.detalleSucursal, function(value, key) {
+                                        if (value.label == activePoints[0].label && value.sucNombre == sucursalnombre) {
+                                            $('#loading').modal('show');
+                                            ordenCompraRepository.detalleOrdenes($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, value.idNodo).then(function(result) {
+                                                console.log(result.data, 'Soy lo que ira a la modal :P')
+                                                $scope.ordenes = result.data;
+                                                $('#loading').modal('hide');
+                                                $('#ordenes').modal('show');
+                                                globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                        };
-                        //END GRAFICA PASTEL
-                        // var donut = new Morris.Donut({
-                        //     element: value.nomSucursal + '-morris-donut',
-                        //     data: $scope.detalle,
-                        //     resize: true
-                        // }).on('click', function(i, row) {
-                        //     $('#loading').modal('show');
-                        //     ordenCompraRepository.detalleOrdenes($scope.Usuario.idUsuario, $scope.proceso, row.idEmpresa, row.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, row.idNodo).then(function(result) {
-                        //         console.log(result.data, 'Soy lo que ira a la modal :P')
-                        //         $scope.ordenes = result.data;
-                        //         $('#loading').modal('hide');
-                        //         $('#ordenes').modal('show');
-                        //         globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
-                        //     });
-                        // });
-                        // for (i = 0; i < donut.segments.length; i++) {
-                        //     donut.segments[i].handlers['hover'].push(function(i) {
-                        //         $scope.muestraMensaje = donut.data[i].idSucursal;
-                        //         $('#morrisdetails-item .morris-hover-row-label').text(donut.data[i].nombreNodo);
-                        //         $('#morrisdetails-item .morris-hover-point').text(donut.data[i].value);
-                        //         $scope.$apply();
-                        //     });
-                        // }
-                        $('#loading').modal('hide');
-                    });
-                } else if ($scope.nodo == false) {
-                    $scope.todoDetalle = [];
-                    ordenCompraRepository.detalleOrdenEstatus($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin).then(function(result) {
-                        $scope.detalleEstatus = result.data;
-                        $scope.todoDetalle.push($scope.detalleEstatus);
-                        console.log($scope.detalleEstatus, 'Soy el detalle con el estatus jejeje')
-                        //BEGIN GRAFICA PASTEL
-                        var doughnutData = result.data;
-                        var doughnutOptions = {
-                            segmentShowStroke: true,
-                            segmentStrokeColor: "#fff",
-                            segmentStrokeWidth: 2,
-                            percentageInnerCutout: 0, // This is 0 for Pie charts
-                            animationSteps: 100,
-                            animationEasing: "easeOutBounce",
-                            animateRotate: true,
-                            animateScale: false,
-                            responsive: true
-                        };
-                        var canvas = document.getElementById(value.nomSucursal + '1');
-                        var ctx = canvas.getContext("2d");
-                        var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
-                        document.getElementById(value.nomSucursal + '1').onclick = function(evt) {
-                            $scope.mostrarFitroSucursal = false;
-                            var nombreid = $(this).attr("id");
-                            var sucursalnombreArray = nombreid.split('1');
-                            var sucursalnombre = sucursalnombreArray[0];
-                            var activePoints = myNewChart.getSegmentsAtEvent(evt);
-                            angular.forEach($scope.todoDetalle, function(value, key) {
-                                $scope.detalleSucursal = value;
-                                angular.forEach($scope.detalleSucursal, function(value, key) {
-                                    if (value.label == activePoints[0].label && value.sucNombre == sucursalnombre) {
-                                        $('#loading').modal('show');
-                                        ordenCompraRepository.detalleOrdenesEstatus($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, value.idEstatus).then(function(result) {
-                                            console.log(result.data, 'Soy lo que ira a la modal :P')
-                                            $scope.ordenes = result.data;
-                                            $('#loading').modal('hide');
-                                            $('#ordenes').modal('show');
-                                            globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
-                                        });
-                                    }
+                            };
+                            //END GRAFICA PASTEL
+                            // var donut = new Morris.Donut({
+                            //     element: value.nomSucursal + '-morris-donut',
+                            //     data: $scope.detalle,
+                            //     resize: true
+                            // }).on('click', function(i, row) {
+                            //     $('#loading').modal('show');
+                            //     ordenCompraRepository.detalleOrdenes($scope.Usuario.idUsuario, $scope.proceso, row.idEmpresa, row.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, row.idNodo).then(function(result) {
+                            //         console.log(result.data, 'Soy lo que ira a la modal :P')
+                            //         $scope.ordenes = result.data;
+                            //         $('#loading').modal('hide');
+                            //         $('#ordenes').modal('show');
+                            //         globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
+                            //     });
+                            // });
+                            // for (i = 0; i < donut.segments.length; i++) {
+                            //     donut.segments[i].handlers['hover'].push(function(i) {
+                            //         $scope.muestraMensaje = donut.data[i].idSucursal;
+                            //         $('#morrisdetails-item .morris-hover-row-label').text(donut.data[i].nombreNodo);
+                            //         $('#morrisdetails-item .morris-hover-point').text(donut.data[i].value);
+                            //         $scope.$apply();
+                            //     });
+                            // }
+                            $('#loading').modal('hide');
+                        });
+                    } else if ($scope.nodo == false) {
+                        $scope.todoDetalle = [];
+                        ordenCompraRepository.detalleOrdenEstatus($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin).then(function(result) {
+                            $scope.detalleEstatus = result.data;
+                            $scope.todoDetalle.push($scope.detalleEstatus);
+                            console.log($scope.detalleEstatus, 'Soy el detalle con el estatus jejeje')
+                            //BEGIN GRAFICA PASTEL
+                            var doughnutData = result.data;
+                            var doughnutOptions = {
+                                segmentShowStroke: true,
+                                segmentStrokeColor: "#fff",
+                                segmentStrokeWidth: 2,
+                                percentageInnerCutout: 0, // This is 0 for Pie charts
+                                animationSteps: 100,
+                                animationEasing: "easeOutBounce",
+                                animateRotate: true,
+                                animateScale: false,
+                                responsive: true
+                            };
+                            var canvas = document.getElementById(value.nomSucursal + '1');
+                            var ctx = canvas.getContext("2d");
+                            var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
+                            document.getElementById(value.nomSucursal + '1').onclick = function(evt) {
+                                $scope.mostrarFitroSucursal = false;
+                                var nombreid = $(this).attr("id");
+                                var sucursalnombreArray = nombreid.split('1');
+                                var sucursalnombre = sucursalnombreArray[0];
+                                var activePoints = myNewChart.getSegmentsAtEvent(evt);
+                                angular.forEach($scope.todoDetalle, function(value, key) {
+                                    $scope.detalleSucursal = value;
+                                    angular.forEach($scope.detalleSucursal, function(value, key) {
+                                        if (value.label == activePoints[0].label && value.sucNombre == sucursalnombre) {
+                                            $('#loading').modal('show');
+                                            ordenCompraRepository.detalleOrdenesEstatus($scope.Usuario.idUsuario, $scope.proceso, value.idEmpresa, value.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, value.idEstatus).then(function(result) {
+                                                console.log(result.data, 'Soy lo que ira a la modal :P')
+                                                $scope.ordenes = result.data;
+                                                $('#loading').modal('hide');
+                                                $('#ordenes').modal('show');
+                                                globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                        };
-                        //END GRAFICA PASTEL
-                        // Morris.Donut({
-                        //     element: value.nomSucursal + '2-morris-donut',
-                        //     data: $scope.detalleEstatus,
-                        //     resize: true
-                        // }).on('click', function(i, row) {
-                        //     $('#loading').modal('show');
-                        //     ordenCompraRepository.detalleOrdenesEstatus($scope.Usuario.idUsuario, $scope.proceso, row.idEmpresa, row.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, row.idEstatus).then(function(result) {
-                        //         console.log(result.data, 'Soy lo que ira a la modal :P')
-                        //         $scope.ordenes = result.data;
-                        //         $('#loading').modal('hide');
-                        //         $('#ordenes').modal('show');
-                        //         globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
-                        //     });
-                        // });
-                        $('#loading').modal('hide');
-                    });
-                }
-            });
-            console.log($scope.encabezadoOrdenes, 'Soy lo que ira en el dashboard');
+                            };
+                            //END GRAFICA PASTEL
+                            // Morris.Donut({
+                            //     element: value.nomSucursal + '2-morris-donut',
+                            //     data: $scope.detalleEstatus,
+                            //     resize: true
+                            // }).on('click', function(i, row) {
+                            //     $('#loading').modal('show');
+                            //     ordenCompraRepository.detalleOrdenesEstatus($scope.Usuario.idUsuario, $scope.proceso, row.idEmpresa, row.idSucursal, $scope.departamento, $scope.division, $scope.fechaInicio, $scope.fechaFin, row.idEstatus).then(function(result) {
+                            //         console.log(result.data, 'Soy lo que ira a la modal :P')
+                            //         $scope.ordenes = result.data;
+                            //         $('#loading').modal('hide');
+                            //         $('#ordenes').modal('show');
+                            //         globalFactory.filtrosTablaSelect("ordenesCompra", "Ordenes de Compra", 5);
+                            //     });
+                            // });
+                            $('#loading').modal('hide');
+                        });
+                    }
+                });
+                console.log($scope.encabezadoOrdenes, 'Soy lo que ira en el dashboard');
+
+            } else {
+                $('#loading').modal('hide');
+                alertFactory.info('No se encontraron resultados para los criterios de busqueda seleccionados')
+            }
+
 
         });
         //
@@ -278,7 +285,7 @@ registrationModule.controller('ordenCompraController', function($scope, $rootSco
     $scope.getDetalleOrden = function(orden) {
         if ($scope.proceso == 1) {
             $scope.ordenCompra = orden;
-            console.log($scope.ordenCompra,'Soy el detalle de la orden de compra')
+            console.log($scope.ordenCompra, 'Soy el detalle de la orden de compra')
             $('#loading').modal('show');
             $('#ordenes').modal('hide');
             ordenCompraRepository.getDetalleOrden(orden).then(function(result) {
